@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+        }
+
+        #box {
+            background-color: blue;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+
+    </div>
+
+    <script>
+        var box = document.getElementById("box");
+        var style = getComputedStyle(box);
+        var divTeft = parseFloat(style.left);
+        var divTop = parseFloat(style.top);
+        box.onmousedown = function (e) {
+            if (e.button !== 0) {
+                return;
+            }
+            window.onmousemove = function (e) {
+                divTeft += e.movementX;
+                divTop += e.movementY;
+                box.style.left = divTeft + "px";
+                box.style.top = divTop + "px";
+            }
+            window.onmouseup = function (e) {
+                if (e.button === 0) {
+                    window.onmousemove = null;
+                }
+            }
+        }
+        
+//         var redBall = document.querySelector(".main .wrapper .red-ball");
+//         //拖动红球
+//         redBall.onmousedown = function (e) {
+//             var redBallStyle = getComputedStyle(redBall);
+//             var pageX = e.pageX;
+//             var pageY = e.pageY;
+//             document.onmousemove = function (e) {
+//                 var newPageX = e.pageX - pageX;
+//                 var newPageY = e.pageY - pageY;
+//                 redBall.style.left = parseInt(redBallStyle.left) + newPageX + "px";
+//                 redBall.style.top = parseInt(redBallStyle.top) + newPageY + "px";
+//                 pageX = e.pageX;
+//                 pageY = e.pageY;
+//             }
+//             document.onmouseup = function(){
+//                 document.onmousemove = null;
+//             }
+//         }
+     </script>
+</body>
+
+</html>

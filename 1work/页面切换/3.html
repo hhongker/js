@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            font-size: 20px;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        .main .center {
+            width: 500px;
+            margin: 0 auto;
+            /* background-color: aquamarine; */
+            margin-top: 60px;
+
+        }
+
+        .clearfix::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .main .center .top ul {
+
+            margin-bottom: 10px;
+        }
+
+        .main .center .top ul li {
+            float: left;
+            width: 25%;
+            text-align: center;
+            color: #11f;
+            cursor: pointer;
+            border-bottom: 2px solid #ccc;
+            padding-bottom: 10px;
+
+        }
+
+        .main .center .bottom {
+            width: 100%;
+            height: auto;
+        }
+
+        .main .center .bottom img {
+            width: 100%;
+        }
+
+        .main .top ul li.select {
+            color: #e00;
+            font-weight: 700;
+            border-bottom: 3px solid;
+            padding-bottom: 9px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="center">
+            <div class="top">
+                <ul class="clearfix">
+                    <li data-img="i1.jpg" class="select">电玩</li>
+                    <li data-img="i2.jpg">网游</li>
+                    <li data-img="i3.jpg">手游</li>
+                    <li data-img="i1.jpg">数码</li>
+                </ul>
+            </div>
+            <div class="bottom">
+                <img src="./i1.jpg" alt="">
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        var dom = {
+            ul: document.getElementsByTagName("ul")[0],
+            img: document.getElementsByTagName("img")[0],
+        }
+        dom.ul.onclick = function (e) {
+            var select = document.getElementsByClassName("select")[0];
+            select.className = "";
+            e.target.className = "select";
+            dom.img.src = e.target.getAttribute("data-img");
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,79 @@
+@font-face {
+    font-family: 'iconfont';
+    /* project id 1564527 */
+    src: url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.eot');
+    src: url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.eot?#iefix') format('embedded-opentype'),
+        url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.woff2') format('woff2'),
+        url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.woff') format('woff'),
+        url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.ttf') format('truetype'),
+        url('https://at.alicdn.com/t/font_1564527_h2bpydgx1xv.svg#iconfont') format('svg');
+}
+
+.message {
+    position: fixed;
+    padding: 15px;
+    border: 1px solid;
+    left: 50%;
+    top: 50%;
+    /* 让元素的css属性在0.2秒内完成变化 */
+    transition: 0.2s;
+    /* 变形：向左平移自身宽度的一半，向上平移自身高度的一半 */
+    transform: translate(-50%, -50%);
+    /* 圆角边框 */
+    border-radius: 5px;
+}
+
+.message .icon {
+    font-family: iconfont;
+    display: inline-block;
+    margin: 0 7px;
+}
+
+.message .content {
+    display: inline-block;
+}
+
+/* 普通信息的样式 */
+.message.info {
+    border-color: #d8e3fd;
+    background-color: #edf2fc;
+    color: #727479;
+}
+
+.message.info .icon::before {
+    content: "\e6bc";
+}
+
+/* 成功的样式 */
+.message.success {
+    border-color: #e1f3d8;
+    background-color: #f0f9eb;
+    color: #67C23A;
+}
+
+.message.success .icon::before {
+    content: "\e61e";
+}
+
+/* 警告的样式 */
+.message.warn {
+    border-color: #faecd8;
+    background-color: #fdf6ec;
+    color: #E6A23C;
+}
+
+.message.warn .icon::before {
+    content: "\e604";
+}
+
+
+/* 错误的样式 */
+.message.error {
+    border-color: #fde2e2;
+    background-color: #fef0f0;
+    color: #F56C6C;
+}
+
+.message.error .icon::before {
+    content: "\e62b";
+}

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .main {
+            width: 520px;
+            /* border: 1px solid; */
+            margin: 60px auto;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .main span {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(84, 88, 88, 0.5);
+            /* border-radius: 50%; */
+            text-align: center;
+            line-height: 40px;
+            color: #fff;
+            font-size: 17px;
+            display: block;
+            position: absolute;
+            top: 120px;
+            cursor: pointer;
+        }
+
+        .main span:hover {
+            background-color: rgba(49, 41, 41, 0.5);
+        }
+
+        .main span.spanleft {
+            left: -8px;
+            border-radius: 0 20px 20px 0;
+        }
+
+        .main span.spanrgiht {
+            right: -8px;
+            border-radius: 20px 0 0 20px;
+        }
+
+        .main .img {
+            width: 1560px;
+            /* height: 280px; */
+        }
+
+        .main .img::after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+
+        .main .img img {
+            float: left;
+        }
+
+        .main .lunbo-ul {
+            width: 60px;
+            height: 14px;
+            background-color: rgba(104, 100, 100, 0.5);
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            margin: 0 auto;
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .main .lunbo-ul li {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background-color: #fff;
+            float: left;
+            margin-left: 8px;
+            margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .main .lunbo-ul li.select {
+            background-color: #f40;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="main">
+        <span class="spanleft">&lt;</span><span class="spanrgiht">&gt;</span>
+        <div class="img">
+            <img src="img/1.jpg" alt="">
+            <img src="img/2.webp" alt="">
+            <img src="img/3.webp" alt="">
+        </div>
+        <ul class="lunbo-ul">
+
+        </ul>
+    </div>
+
+    <script>
+        var spanleft = document.getElementsByClassName("spanleft")[0];
+        var spanrgiht = document.getElementsByClassName("spanrgiht")[0];
+        var main = document.getElementsByClassName("main")[0];
+        var img = document.getElementsByClassName("img")[0];
+        var ul = document.getElementsByClassName("lunbo-ul")[0];
+        var mainstyle = getComputedStyle(main);
+        var mainwidth = parseFloat(mainstyle.width);
+
+
+        setli();
+        function setli() {
+            var imgmargilef = getComputedStyle(img);
+            var imgmarginleft = parseInt(imgmargilef.marginLeft);
+            for (var i = 0; i < img.children.length; i++) {
+                var li = document.createElement("li");
+                li.dataset.I = i;
+                if (i * (-520) === imgmarginleft) {
+                    li.className = "select";
+                }
+                ul.appendChild(li);
+            }
+        }
+
+        ul.onclick = function (e) {
+            if (e.target.tagName === "LI") {
+                var selectli = this.getElementsByClassName("select")[0];
+                selectli.className = null;
+                e.target.className = "select";
+                var i = parseInt(e.target.dataset.I);
+                img.style.marginLeft = -i * mainwidth + "px"
+                console.log(e.target);
+            }
+        }
+
+        main.onclick = function (e) {
+
+            var imgmargilef = getComputedStyle(img);
+            var imgmarginleft = parseFloat(imgmargilef.marginLeft);
+            var selectli = this.getElementsByClassName("select")[0];
+            selectli.className = null;
+            if (e.target === spanleft) {
+                if (imgmarginleft >= 0) {
+                    img.style.marginLeft = -(img.children.length - 1) * mainwidth + "px";
+                    document.querySelector(`[data--i="${(img.children.length - 1)}"]`).className = "select";
+                } else {
+                    img.style.marginLeft = imgmarginleft + mainwidth + "px";
+                    document.querySelector(`[data--i="${Math.abs(parseInt(imgmarginleft + mainwidth) / mainwidth)}"]`).className = "select";
+                }
+
+            }
+            if (e.target === spanrgiht) {
+
+                if (imgmarginleft > - (img.children.length - 1) * mainwidth) {
+                    img.style.marginLeft = imgmarginleft - mainwidth + "px";
+                    document.querySelector(`[data--i="${Math.abs(parseInt(imgmarginleft - mainwidth) / mainwidth)}"]`).className = "select";
+                } else {
+                    document.querySelector(`[data--i="0"]`).className = "select";
+                    img.style.marginLeft = "0px";
+
+                }
+
+
+            }
+        }
+
+        setInterval(function () {
+            var imgmargilef = getComputedStyle(img);
+            var imgmarginleft = parseFloat(imgmargilef.marginLeft);
+            var selectli = document.getElementsByClassName("select")[0];
+            selectli.className = null;
+            if (imgmarginleft > - (img.children.length - 1) * mainwidth) {
+                img.style.marginLeft = imgmarginleft - mainwidth + "px";
+                document.querySelector(`[data--i="${Math.abs(parseInt(imgmarginleft - mainwidth) / mainwidth)}"]`).className = "select";
+            } else {
+                document.querySelector(`[data--i="0"]`).className = "select";
+                img.style.marginLeft = "0px";
+
+            }
+        }, 3000)
+    </script>
+</body>
+
+</html>

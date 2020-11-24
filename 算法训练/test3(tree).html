@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+
+        function Tree(value) {
+            this.value = value;
+            this.left = null;
+            this.right = null;
+        }
+        var a = new Tree("a");
+        var b = new Tree("b");
+        var c = new Tree("c");
+        var d = new Tree("d");
+        var e = new Tree("e");
+        var f = new Tree("f");
+        a.left = b;
+        a.right = c;
+        b.left = d;
+        b.right = e;
+        c.left = f;
+        // console.log(a);
+
+        function DLR(root) {
+            if (!root) {
+                return;
+            }
+            console.log(root.value);
+            DLR(root.left);
+            DLR(root.right);
+        }
+        // DLR(a);
+        // console.log("=============");
+
+        function LDR(root) {
+            if (!root) {
+                return;
+            }
+            LDR(root.left);
+            console.log(root.value);
+            LDR(root.right);
+        }
+        // LDR(a);
+        // console.log("=============");
+
+        function LRD(root) {
+            if (!root) {
+                return;
+            }
+            LRD(root.left);
+            LRD(root.right);
+            console.log(root.value);
+        }
+        // LRD(a);
+
+
+        //获取树的度
+        function treeDegree(root) {
+            if (!root) {
+                return 0;
+            }
+            return 1 + Math.max((treeDegree(root.left), treeDegree(root.right)));
+        }
+        // console.log(treeDegree(a));
+
+        function getTree(dlr, ldr) {
+            if (typeof (dlr) == "string") dlr = dlr.split("");
+            if (typeof (ldr) == "string") ldr = ldr.split("");
+
+            if (dlr.length !== ldr.length) throw new Error("前序遍历或后序遍历参数不对");
+            if (!dlr.length) return null;
+
+            var rootNode = dlr[0];
+            var rootIndex = ldr.indexOf(rootNode);
+
+            //左子树的中序遍历
+            var ldrLeft = ldr.slice(0, rootIndex);
+            //左子树的前序遍历
+            var dlrLeft = dlr.slice(1, rootIndex + 1);
+            //右子数的中序遍历
+            var ldrRight = ldr.slice(rootIndex + 1);
+            //右子数的前序遍历
+            var dlrRight = dlr.slice(rootIndex + 1);
+
+            var root = new Tree(rootNode);
+            root.left = getTree(dlrLeft, ldrLeft);
+            root.right = getTree(dlrRight, ldrRight);
+
+            return root;
+        }
+
+
+        // var tree = getTree("abdecf","dbeafc");
+        // console.log(tree,LRD(tree));
+
+
+        // 树的深度优先搜索
+        function deppSearch(root, target) {
+            if (!root) return false;
+            if (root.value == target) return true;
+            return deppSearch(root.left, target) || deppSearch(root.right, target);
+        }
+        // console.log(deppSearch(a,"b"));
+
+
+        // 树的广度优先搜索
+        function breadthSearch(roots, target) {
+            if (!roots.length) return false;
+            var nexts = [];//准备一个数组存放下一层
+            for (var i = 0; i < roots.length; i++) {
+                if (roots[i].value == target) {
+                    return true;
+                }
+                nexts.push(roots[i].left);
+                nexts.push(roots[i].right);
+            }//出了循环都找不到，开始搜索下一层
+            return breadthSearch(nexts, target);
+        }
+        // console.log(breadthSearch([a],"e"));
+
+
+        // 两颗树的差异
+        function treeDifference(originRoot, newRoot) {
+            if (!originRoot && !newRoot) return [];
+            var result = [];
+            if (originRoot && !newRoot) {
+                result.push({
+                    type: "删除",
+                    originNode: originRoot,
+                    newNode: newRoot
+                });
+            } else if (!originRoot && newRoot) {
+                result.push({
+                    type: "新增",
+                    originNode: originRoot,
+                    newNode: newRoot
+                });
+            } else if (originRoot.value !== newRoot.value) {
+                result.push({
+                    type: "修改",
+                    originNode: originRoot,
+                    newNode: newRoot
+                });
+                result = result.concat(treeDifference(originRoot.left, newRoot.right))
+                    .concat(treeDifference(originRoot.right, newRoot.right));
+            } else {
+                result.push({
+                    type: "没变",
+                    originNode: originRoot,
+                    newNode: newRoot
+                });
+                result = result.concat(treeDifference(originRoot.left, newRoot.right))
+                    .concat(treeDifference(originRoot.right, newRoot.right));
+            }
+            return result;
+        }
+        var root1 = getTree("abcd", "cbda");
+        var root2 = getTree("afkes", "kfase");
+        var results = treeDifference(root1, root2);
+        console.log(results);
+
+
+
+    </script>
+</body>
+
+</html>

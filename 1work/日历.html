@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <style>
+        th,
+        td {
+            border: 1px solid;
+            width: 30px;
+            height: 30px;
+            text-align: center;
+            line-height: 30px;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div id="weekBox">
+
+    </div>
+    <!-- <table>
+        <tr>
+            <th colspan="7">&lt; 2019/11 &gt;</th>
+        </tr>
+        <tr>
+            <td>日</td>
+            <td>一</td>
+            <td>二</td>
+            <td>三</td>
+            <td>四</td>
+            <td>五</td>
+            <td>六</td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+        </tr>
+    </table> -->
+
+</body>
+
+<script>
+
+
+if (!window.myblog) {
+    window.myblog = {};
+}
+window.myblog.calendar = function(){
+    function runNian(_year) {//判断闰年
+        return _year % 400 === 0 || _year % 4 === 0 && _year % 100 !== 0;
+    }
+
+    function getDayNum(_year, _month) {//判断该年月的天数
+        var dayNum = 0;
+        switch (_month) {
+            case 1: dayNum = 31;
+                break;
+            case 2:
+                if (runNian(_year)) {
+                    dayNum = 29;
+                } else {
+                    dayNum = 28;
+                }
+                break;
+            case 3: dayNum = 31; break;
+            case 4: dayNum = 30; break;
+            case 5: dayNum = 31; break;
+            case 6: dayNum = 30; break;
+            case 7: dayNum = 31; break;
+            case 8: dayNum = 31; break;
+            case 9: dayNum = 30; break;
+            case 10: dayNum = 31; break;
+            case 11: dayNum = 30; break;
+            case 12: dayNum = 31; break;
+        }
+        return dayNum;
+    }
+
+    function getFirstDay(_year, _month) {//判断某年某月第一天周几
+        var allDay = 0, y = _year - 1, i = 1;
+        allDay = y + Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) + 1;
+        for (; i < _month; i++) {
+            switch (i) {
+                case 1: allDay += 31; break;
+                case 2:
+                    if (runNian(_year)) { allDay += 29; }
+                    else { allDay += 28; }
+                    break;
+                case 3: allDay += 31; break;
+                case 4: allDay += 30; break;
+                case 5: allDay += 31; break;
+                case 6: allDay += 30; break;
+                case 7: allDay += 31; break;
+                case 8: allDay += 31; break;
+                case 9: allDay += 30; break;
+                case 10: allDay += 31; break;
+                case 11: allDay += 30; break;
+                case 12: allDay += 31; break;
+            }
+        }
+        return allDay % 7;
+    }
+
+
+    // ================================================================================================== //
+
+    var today;
+    var _year;
+    var _month;
+    var _day;
+
+    var dayWeek;
+    var week = ["日", "一", "二", "三", "四", "五", "六"];
+    table = document.createElement("table");
+    table.id = "table";
+
+    var firstDay;
+    var dayNum;
+    var trNum;
+
+
+
+
+    //给每个td和><绑定事件
+    function clickAction(box) {
+        var tb = document.getElementById("table");
+        var trs = tb.getElementsByTagName("tr");
+
+        function changTr(ymds,sizeY,sizeM) {
+            var ymd = ymds.split("/");
+            var y = parseInt(ymd[0]) + sizeY;
+            var m = parseInt(ymd[1])+sizeM;
+
+            if(m >= 13){
+                m = 1;
+                y ++;
+            }
+            if(m <= 0){
+                m = 12;
+                y --;
+            }
+            init(y,m , parseInt(ymd[2]));
+            tb.innerHTML = null;
+            showCalendar(document.getElementById("weekBox"));
+        }
+
+        box.onclick = function (e) {
+            var th = trs[0].getElementsByTagName("th");
+            var ymds = th[2].innerText;
+            if (e.target.innerText == "<<") {
+                changTr(ymds,-1,0);
+            } else if (e.target.innerText == ">>") {
+                changTr(ymds,1,0);
+            } else if (e.target.innerText == "<") {
+                changTr(ymds,0,-1);
+            } else if (e.target.innerText == ">") {
+                changTr(ymds,0,1);
+            } else if (e.target.innerText && e.target.tagName == "TD") {
+                var ymd = ymds.split("/");
+                th[2].innerText = ymd[0] + "/" + ymd[1] + "/" + e.target.innerText;
+            }
+        }
+    }
+
+
+
+
+    function init(y, m, d) {//获取当天的年月日
+        today = new Date();
+        _year = y || today.getFullYear();
+        _month = m || today.getMonth() + 1;
+        _day = d || today.getDate();
+        dayWeek = 0;
+
+        firstDay = getFirstDay(_year, _month);
+        dayNum = getDayNum(_year, _month);
+        trNum = Math.floor(dayNum / 7 + 1);
+    }
+
+
+    function showCalendar(weekBox) {//创建日历
+
+        for (var i = 0; i < 2; i++) {//上面两行提示
+            var tr = document.createElement("tr");
+            if (i === 0) {
+                for (var j = 0; j < 5; j++) {
+                    var th = document.createElement("th");
+                    if (j == 0) {
+                        th.style.cursor = "pointer";
+                        th.innerText = "<<";
+                    } else if (j == 1) {
+                        th.style.cursor = "pointer";
+                        th.innerText = "<";
+                    } else if (j == 2) {
+                        th.colSpan = "3";
+                        th.innerText = _year + "/" + _month + "/" + _day;
+                        tr.appendChild(th);
+                    } else if (j == 3) {
+                        th.style.cursor = "pointer";
+                        th.innerText = ">";
+                    } else if (j == 4) {
+                        th.style.cursor = "pointer";
+                        th.innerText = ">>";
+                    }
+                    tr.appendChild(th);
+                }
+            } else {
+                for (var j = 0; j < 7; j++) {
+                    var th = document.createElement("th");
+                    th.innerText = week[j];
+                    tr.appendChild(th);
+                }
+            }
+            table.appendChild(tr);
+        }
+
+        for (var i = 0; i < trNum; i++) {//下面主要部分
+            var tr = document.createElement("tr");
+            for (var j = 0; j < 7; j++) {
+                var td = document.createElement("td");
+                if (!(i == 0 && j < firstDay || dayWeek >= dayNum)) {
+                    td.style.cursor = "pointer";
+                    td.innerText = ++dayWeek;
+                }
+                tr.appendChild(td);
+            }
+            table.appendChild(tr);
+        }
+
+        weekBox.appendChild(table);
+    }
+
+    init();
+    showCalendar(document.getElementById("weekBox"));
+    clickAction(table);//事件
+}
+window.myblog.calendar();
+    
+
+</script>
+
+</html>

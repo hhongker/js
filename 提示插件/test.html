@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <style>
+        .xxx{
+            background-color: aqua;
+        }
+    </style>
+    <title>Document</title>
+
+</head>
+<body>
+    <button>点我</button>
+    <script src="plungin.js"></script>
+    <script>
+        var button = document.getElementsByTagName("button")[0];
+        button.onclick = function(){
+            window.myobj.myplugin({
+                closeSure:"lsad",
+                sure:"sfa",
+                cancle:"sfda",
+                sureClassName:"xxx",
+                surecallback:function(){
+                    console.log("are you ok?");
+                }
+
+            });
+        }
+    </script>
+</body>
+</html>

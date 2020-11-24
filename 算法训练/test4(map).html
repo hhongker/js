@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Figure(value) {
+            this.value = value;
+            this.neighbors = [];
+        }
+        var a = new Figure("a");
+        var b = new Figure("b");
+        var c = new Figure("c");
+        var d = new Figure("d");
+        var e = new Figure("e");
+        var f = new Figure("f");
+        var g = new Figure("g");
+
+        a.neighbors.push(b, e, g);
+        b.neighbors.push(a);
+        c.neighbors.push(d, e, f);
+        d.neighbors.push(c, f);
+        e.neighbors.push(a, c, g);
+        f.neighbors.push(c, d);
+        g.neighbors.push(a, e);
+
+        function deepSearch(node, targeValue, map = []) {
+            if (node.value === targeValue) return true;
+            if (map.includes(node)) return false;
+            map.push(node);
+            for (var i = 0; i < node.neighbors.length; i++) {
+                if (deepSearch(node.neighbors[i], targeValue, map)) return true;
+            }
+            return false;
+        }
+        // var result = deepSearch(a,"e");
+        // console.log(result);
+
+
+        function breadthSearch(nodes, targetValue, finded = []) {
+            while (nodes.length) {
+                var nexts = [];//准备一个数组next存放当前这一层的每一个的邻居
+                for (var i = 0; i < nodes.length; i++) {//寻找当前这一层的每一个元素
+                    if (nodes[i].value === targetValue) {//找到即可返回
+                        return true;
+                    }
+                    finded.push(nodes[i]);//没找到，加入数组，以示找过
+                    // 使用next存放当前这一层的每一个的邻居
+                    for (var j = 0; j < nodes[i].neighbors.length; j++) {
+                        nexts.push(nodes[i].neighbors[j]);
+                    }
+                }//出了这一层，表明这层没有，并且下一层已经存放到nexts里，这时需要将下一层的每个元素进行筛选，看其是否已被选过
+                for (var i = 0; i < nexts.length; i++) {
+                    if (finded.includes(nexts[i])) {
+                        nexts.splice(i, 1);
+                        i--;
+                    }
+                }//经过这个筛选，已经将下一层中被选过的筛掉了
+                nodes = nexts;
+            }
+            return false;
+        }
+        // var result = breadthSearch([a],"g");
+        // console.log(result);
+
+
+        function breadthFirstSearch(nodes, targetValue, finded = []) {
+            if (nodes.length === 0) return false;
+            var nexts = [];
+            for (var i = 0; i < nodes.length; i++) {
+                if (nodes[i].value === targetValue) {
+                    return true;
+                }
+                //说明该结点已找过
+                finded.push(nodes[i]);
+                //直接将该结点的相邻结点加入到数组nexts
+                for (var j = 0; j < nodes[i].neighbors.length; j++) {
+                    var n = nodes[i].neighbors[j]; //第j个邻居
+                    nexts.push(n);
+                }
+            }
+            //重新对nexts进行处理
+            for (var i = 0; i < nexts.length; i++) {
+                if (finded.includes(nexts[i])) {
+                    nexts.splice(i, 1);
+                    i--;
+                }
+            }
+            console.log(nexts)
+            return breadthFirstSearch(nexts, targetValue, finded);
+        }
+        // var result = breadthFirstSearch([a],"g",[]);
+        // console.log(result);
+
+        
+
+        var a1 = new Figure("a1");
+        var b1 = new Figure("b1");
+        var c1 = new Figure("c1");
+        var d1 = new Figure("d1");
+        var e1 = new Figure("e1");
+
+
+        var nodes = [a1, b1, c1, d1, e1];
+        var sides = [//边得集合
+            [0,8,3,Infinity,4],
+            [8,0,4,10,Infinity],
+            [3,4,0,3,Infinity],
+            [Infinity,10,3,0,6],
+            [4,Infinity,Infinity,6,0]
+        ];
+
+        // 先从一个点开始
+        // 找到离该点最近的那群点中的一个
+        function prim(sides, nodes) {
+
+            if (sides.length !== nodes.length || !nodes || nodes.length <= 1) return;
+            // 先由任意一个点形成部落
+            var hrodes = [nodes[0]];
+            while (hrodes.length < nodes.length) {
+                var result = {//用一个对象记录不在部落里的点到在部落里的点的最短距离的点的信息
+                    dis: Infinity,
+                    to: null,//部落里的点
+                    from: null //新的点
+                }
+                for (var i = 0; i < nodes.length; i++) {//开始遍历不在部落里面的所有点
+                    if (!hrodes.includes(nodes[i])) {
+                        var minDisImfor = getMinDis(nodes[i]);
+                        if (minDisImfor.dis < result.dis) {
+                            result.dis = minDisImfor.dis;
+                            result.to = nodes[i];
+                            result.from = minDisImfor.from;
+                        }
+                    }
+                }
+                result.to.neighbors.push(result.from);
+                result.from.neighbors.push(result.to);
+                hrodes.push(result.to);
+                // 准备一个函数获取点到部落里面最小值的信息
+            }
+            function getMinDis(node) {
+                var minNode = {
+                    dis: Infinity,
+                    from: null
+                }
+                for (var i = 0; i < hrodes.length; i++) {
+                    var dis = getDis(node, hrodes[i]);
+                    if (minNode.dis > dis) {
+                        minNode.dis = dis;
+                        minNode.from = hrodes[i];
+                    }
+                }
+                return minNode;
+            }
+            // 准备一个函数根据边集和点集合求两点间距离
+            function getDis(node1, node2) {
+                var row = nodes.indexOf(node1);
+                var col = nodes.indexOf(node2);
+                return sides[row][col];
+            }
+        }
+        prim(sides,nodes);
+        console.log(a1);
+
+
+    </script>
+
+
+
+</body>
+
+</html>

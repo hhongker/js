@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        /* .main {
+            width: 600px;
+            background-color: #008c8c;
+            box-sizing: border-box;
+        } */
+    </style>
+</head>
+
+<body>
+
+    <!-- <div class="main">
+        <div class="wrapper">
+            <select name="" id="">
+                <option value="">1900</option>
+                <option value="">1900</option>
+                <option value="">1900</option>
+                <option value="">1900</option>
+            </select>年
+            <select name="" id="">
+                <option value="">1900</option>
+                <option value="">1900</option>
+                <option value="">1900</option>
+                <option value="">1900</option>
+            </select>月
+            <button>今天</button>
+        </div>
+    </div> -->
+
+    <script>
+
+
+        if (!window.myPlungin) window.myPlungin = {};
+        window.myPlungin.myCalendar = function (e) {
+
+            // 整个主体
+            var main = document.createElement("div");
+            // main.style.width = "600px";
+            // main.style.borderRadius = "6px";
+            main.style.backgroundColor = "#008c8c";
+            // main.style.fontSize = "18px";
+            main.style.color = "#fff";
+            main.style.textAlign = "center";
+
+            // 头部提示部分
+            var wrapper = document.createElement("div");
+            // wrapper.style.padding = "12px 0";
+            // 年
+            var selectYear = document.createElement("select");
+            // selectYear.style.height = "20px";
+            // selectYear.style.width = "60px";
+            // selectYear.style.fontSize = "12px";
+            for (var i = 1900; i < 2100; i++) {
+                var option = document.createElement("option");
+                option.innerText = i;
+                option.value = i;
+                // if(i == getYMD().year){
+                //     option.selected = true;
+                // }
+                selectYear.appendChild(option);
+            }
+            var spanYear = document.createElement("span");
+            spanYear.innerText = "年"
+            // spanYear.style.margin = "0 4px";
+            // 月
+            var selectMonth = document.createElement("select");
+            // selectMonth.style.height = "20px";
+            // selectMonth.style.width = "40px";
+            // selectMonth.style.fontSize = "12px";
+            for (var i = 1; i <= 12; i++) {
+                var option = document.createElement("option");
+                option.innerText = i;
+                option.value = i;
+                // if(getYMD().month == i){
+                //     option.selected = true;
+                // }
+                selectMonth.appendChild(option);
+            }
+            var spanMonth = document.createElement("span");
+            spanMonth.innerText = "月"
+            // spanMonth.style.margin = "0 4px";
+
+            // 今天按钮
+            var buttonToday = document.createElement("button");
+            buttonToday.innerText = "今天"
+            // buttonToday.style.height = "25px";
+
+            wrapper.appendChild(selectYear);
+            wrapper.appendChild(spanYear);
+            wrapper.appendChild(selectMonth);
+            wrapper.appendChild(spanMonth);
+            wrapper.appendChild(buttonToday);
+
+
+            // 周几提示
+            var day = document.createElement("div");
+            var monday = document.createElement("span");
+            monday.innerText = "一";
+            var tuesday = document.createElement("span");
+            tuesday.innerText = "二";
+            var wednesday = document.createElement("span");
+            wednesday.innerText = "三";
+            var thursday = document.createElement("span");
+            thursday.innerText = "四";
+            var friday = document.createElement("span");
+            friday.innerText = "五";
+            var saturday = document.createElement("span");
+            saturday.innerText = "六";
+            var sunday = document.createElement("span");
+            sunday.innerText = "日";
+            day.appendChild(monday);
+            day.appendChild(tuesday);
+            day.appendChild(wednesday);
+            day.appendChild(thursday);
+            day.appendChild(friday);
+            day.appendChild(saturday);
+            day.appendChild(sunday);
+            day.style.display = "grid";
+            day.style.gridTemplateColumns = "repeat(7,1fr)";
+
+
+            // 日期部分
+            var table = document.createElement("div");
+            // table.style.paddingTop = "12px";
+            table.style.display = "grid";
+            table.style.gridTemplateColumns = "repeat(7,1fr)";
+
+
+            main.appendChild(wrapper);
+            main.appendChild(day);
+            main.appendChild(table);
+            e.appendChild(main);
+
+
+
+            // 获取本月的第一天是周几
+            function getYMD() {
+                var date = new Date();
+                return {
+                    year: date.getFullYear(),
+                    month: date.getMonth(),
+                    day: date.getDay()
+                }
+            }
+
+
+            function initSelect() {
+                // 初始化select
+                selectYear.value = getYMD().year;
+                selectMonth.value = getYMD().month + 1;
+            }
+
+
+
+
+            // 核心部分
+            // 获取该月的第一天是周几
+            function isWhichDate() {
+                var date = new Date(+selectYear.value, +selectMonth.value - 1);
+                var wihchDate = date.getDay();
+                if (wihchDate == 0) {
+                    wihchDate = 7;
+                }
+                return wihchDate;
+            }
+
+            // 获取该月多少天
+            function howManyDayOfThisMonth() {
+                var date = new Date(+selectYear.value, +selectMonth.value, 0);
+                return date.getDate();
+            }
+
+
+            function setTable() {
+                table.innerHTML = "";
+                // 设置前面空格的个数
+                var wihchDate = isWhichDate();
+                for (var i = 0; i < wihchDate - 1; i++) {
+                    var span = document.createElement("span");
+                    span.style.padding = "5px 0";
+                    table.appendChild(span);
+                }
+
+                // 设置该月天数
+                var days = howManyDayOfThisMonth();
+
+                for (var i = 1; i <= days; i++) {
+                    var span = document.createElement("span");
+                    span.innerText = i;
+                    span.style.padding = "5px 0";
+                    var date = new Date();
+                    if (i == date.getDate() && selectMonth.value == date.getMonth() + 1 && selectYear.value == date.getFullYear()) {
+                        span.style.backgroundColor = "#fff";
+                        span.style.color = "#008c8c";
+                        // span.style.width = "30.333px";
+                        // span.style.height = "30.333px";
+                        // span.style.lineHeight = "30.333px";
+                        // span.style.margin = "0 auto";
+                        // span.style.boxSizing = "border-box";
+                        // span.style.padding = "";
+                        span.style.borderRadius = "50%";
+                    }
+                    table.appendChild(span);
+                }
+            }
+
+           
+
+            initSelect();
+            setTable();
+
+
+            // 事件
+            selectYear.onchange = selectMonth.onchange = setTable;
+            buttonToday.onclick = function (e) {
+                initSelect();
+                setTable();
+            }
+
+
+
+
+        }
+
+
+
+        myPlungin.myCalendar(document.getElementsByTagName("body")[0]);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var menu = [
+            { name: "菜单一", children: ["商品一", "商品二", "商品三"] },
+            { name: "菜单二", children: ["商品一", "商品二", "商品三"] },
+            { name: "菜单三", children: ["商品一", "商品二", "商品三"] },
+        ];
+        var divmain = document.createDocumentFragment();
+        var body = document.getElementsByTagName("body")[0];
+        var flag = [true, true, true];
+        var lis = [[],[],[]];
+
+        for (var i = 0; i < menu.length; i++) {
+            var ul = document.createElement("ul");
+            ul.style.border = "1px solid";
+            ul.style.width = "120px";
+            ul.style.padding = "0";
+            ul.style.margin = "0";
+            ul.style.borderTop = "0";
+            ul.style.borderBottom = "0";
+            if (i === 0) {
+                ul.style.borderTop = "1px solid";
+            }
+            if (i === menu.length - 1) {
+                ul.style.borderBottom = "1px solid";
+            }
+            for (var j = 0; j < menu[i].children.length + 1; j++) {
+                var li = document.createElement("li");
+                li.style.height = "20px";
+                li.style.fontSize = "16px";
+                li.style.lineHeight = "20px";
+                li.style.textAlign = "center";
+                li.style.padding = "5px 0";
+                li.style.listStyle = "none";
+                li.style.cursor = "pointer";
+                // li.style.transition = ".5s";
+                if (j === 0) {
+                    li.innerText = menu[i].name;
+                    console.log(menu[i].name);
+                    li.style.backgroundColor = "#f40";
+                    fl(li,i);
+                } else {
+                    li.innerText = menu[i].children[j - 1];
+                    lis[i].push(li);
+                }
+                ul.appendChild(li);
+                divmain.appendChild(ul);
+            }
+        }
+
+        function display(i) {
+            lis[i].forEach(function (e) {
+                if(flag[i]){
+                    e.style.display = "block";
+                }else{
+                    e.style.display = "none";
+                }
+            })
+
+        }
+
+        function fl(li,k) {
+            li.onclick = function () {
+                if (flag[k]) {
+                    flag[k] = false;
+                    if(k !== flag.length-1){
+                        this.style.borderBottom = "1px solid";
+                        this.style.boxSizing = "border-box";
+                    }
+                } else {
+                    flag[k] = true;
+                    this.style.borderBottom = "0";
+                }
+                display(k);
+            }
+        }
+        
+        body.appendChild(divmain);
+    </script>
+</body>
+
+</html>

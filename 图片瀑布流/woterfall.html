@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .main {
+            width: 90%;
+            /* border: 2px solid; */
+            /* height: 3000px; */
+            margin: 0 auto;
+            /* overflow: hidden; */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main"></div>
+
+    <script src="../myplugin/myplugin.js"></script>
+    <script src="woterfall.js"></script>
+
+    <script>
+        var imgs = [];
+        for (var i = 1; i <= 47; i++) {
+            imgs.push(`img/${i}.jpg`);
+        }
+        var main = document.getElementsByClassName("main")[0];
+        this.myPlugin.woterfall({
+            imgWidth: 200,
+            mingrap: 10,
+            main: main,
+            imgs:imgs
+        });
+    </script>
+
+</body>
+
+</html>

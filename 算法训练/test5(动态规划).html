@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        //斐波那契
+        function fibonacci1(n) {
+            if (n == 1 || n == 2) return 1;
+            return fibonacci1(n - 1) + fibonacci1(n - 2);
+        }
+
+        function fibonacci2(n) {
+            if (n == 1 || n == 2) return 1;
+            var N = [];
+            N[0] = N[1] = 1;
+            for (var i = 2; i <= n - 1; i++) {
+                N[i] = N[i - 1] + N[i - 2];
+            }
+            return N[n - 1];
+        }
+
+        function fibonacci3(n) {
+
+            var arr = [];
+            function _fibonacci3(n) {
+                if (n == 1 || n == 2) return 1;
+                if (arr[n]) {
+                    return arr[n];
+                }
+                var sum = _fibonacci3(n - 1) + _fibonacci3(n - 2);
+                // console.log(sum);
+                arr[n] = (sum);
+                return sum;
+            }
+            return _fibonacci3(n);
+        }
+        // console.log(fibonacci1(10));
+        // console.log(fibonacci2(10));
+        // console.log(fibonacci3(10));
+
+
+
+        function sameStr1(str1, str2) {
+            if (!str1 || !str2 || !str1.length || !str2.length) return "";
+            if (str1[0] === str2[0]) {
+                return str1[0] + sameStr1(str1.substr(1), str2.substr(1));
+            } else {
+                var s1 = sameStr1(str1, str2.substr(1));
+                var s2 = sameStr1(str1.substr(1), str2);
+                if (s1.length > s2.length) {
+                    return s1;
+                } else {
+                    return s2;
+                }
+            }
+        }
+
+        function sameStr2(str1, str2) {
+            var table = [];
+            function _sameStr2(str1,str2) {
+                for(var i = 0; i < table.length; i ++){
+                    if(table.str1 === str1 && table.str2 === str2){
+                        return table.result;
+                    }
+                }
+                var newStr;
+                if (!str1 || !str2 || !str1.length || !str2.length) {
+                    newStr = "";
+                }else if (str1[0] === str2[0]) {
+                    newStr = str1[0] + _sameStr2(str1.substr(1), str2.substr(1));
+                } else {
+                    var s1 = _sameStr2(str1, str2.substr(1));
+                    var s2 = _sameStr2(str1.substr(1), str2);
+                    if (s1.length > s2.length) {
+                        newStr = s1;
+                    } else {
+                        newStr = s2;
+                    }
+                }
+                table.push({
+                    str1 : str1,
+                    str2 : str2,
+                    result : newStr
+                });
+                return newStr;
+            }
+            return _sameStr2(str1, str2);
+        }
+
+        console.log(sameStr2("我最帅气", "你说还有谁有我这么帅气"));
+
+    </script>
+</body>
+
+</html>

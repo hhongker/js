@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        .contranit1,
+        .contranit2 {
+            width: 100px;
+            height: 100px;
+            float: left;
+            background: #ab2;
+        }
+
+        .contranit2 {
+            float: right;
+            background: #aec;
+        }
+
+        ul {
+            position: fixed;
+            list-style: none;
+            border: 1px solid;
+            padding: 0;
+            margin: 0;
+            min-width: 80px;
+            display: none;
+            background: #fff;
+        }
+
+        ul li {
+            text-align: center;
+            padding: 8px 0;
+        }
+    </style>
+</head>
+
+<body>
+
+
+    <div class="contranit1"></div>
+    <div class="contranit2"></div>
+    <ul>
+        <li>菜单1</li>
+        <li>菜单2</li>
+        <li>菜单3</li>
+        <li>菜单4</li>
+        <li>菜单5</li>
+        <li>菜单6</li>
+        <li>菜单7</li>
+        <li>菜单8</li>
+    </ul>
+
+
+    <script>
+        (function () {
+            var c1 = document.getElementsByClassName("contranit1")[0];
+            var c2 = document.getElementsByClassName("contranit2")[0];
+            var ul = document.getElementsByTagName("ul")[0];
+
+
+            c1.oncontextmenu = c2.oncontextmenu = function (e) {
+                e.preventDefault();
+                ul.style.display = "block";
+                ul.style.left = e.clientX + "px";
+                ul.style.top = e.clientY + "px";
+            }
+
+            window.onmousedown = function () {
+                ul.style.display = "none";
+            }
+        }())
+    </script>
+</body>
+
+</html>

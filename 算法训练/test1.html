@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+
+    <script>
+
+        function Node(value) {
+            this.value = value;
+            this.next = null;
+        }
+
+        var a = new Node(1),
+            b = new Node(2),
+            c = new Node(3);
+
+        a.next = b;
+        b.next = c;
+
+        // 1.遍历打印链表
+        function print1(root) {
+            var temp = root;
+            while (temp) {
+                console.log(temp.value);
+                temp = temp.next;
+            }
+        }
+        // print1(a);
+
+        function print2(root) {
+            if (!root) {
+                return;
+            }
+            console.log(root.value);
+            print2(root.next);
+        }
+        // print2(a);
+
+        // 获取链表长度
+        function getLen1(root) {
+            var len = 0;
+            var temp = root;
+            while (temp) {
+                len++;
+                temp = temp.next;
+            }
+            return len;
+        }
+        // console.log(getLen1(a));
+
+        function getLen2(root) {
+            if (!root) {
+                return 0;
+            }
+            return 1 + getLen2(root.next);
+        }
+        // console.log(getLen2(a));
+
+
+        //通过下标获取连表中的某个数据
+        function indexOf(index, root) {
+            if (index < 0 || !root) {
+                return;
+            }
+            var temp = root;
+            while (index && temp) {
+                temp = temp.next;
+                index--;
+            }
+            return temp.value;
+        }
+        // console.log(indexOf(2,a));
+
+
+        function indexOf2(index, root) {
+            if (index < 0 || !root) {
+                return;
+            }
+            var j = 0;
+            function helpFind(i, r) {
+                if (i == index) {
+                    return r.value;
+                }
+                return helpFind(++i, r.next);
+            }
+            return helpFind(j, root);
+        }
+        // console.log(indexOf2(2, a));
+        // print1(a)
+
+        // 通过下标设置链表中的某个数据
+        function setValueByIndex(root, index, newVale) {
+            if (index < 0 || !root) {
+                return;
+            }
+            while (index && root) {
+                root = root.next;
+                index--;
+            }
+            root.value = newVale;
+        }
+        // setValueByIndex(a,1,8);
+        // console.log(a);
+
+        function insertNode(root, newNode) {
+            newNode.next = root.next;
+            root.next = newNode;
+        }
+        // insertNode(b,new Node(7));
+        // console.log(a);
+
+        function lastInsertNode(root, newNode) {
+            if (!root) {
+                return;
+            }
+            if (!root.next) {
+                root.next = newNode;
+                return;
+            }
+            lastInsertNode(root.next, newNode);
+        }
+        // lastInsertNode(a,new Node(9));
+        // console.log(a);
+
+        //删除一个链表节点 
+        function deleteNode(root, dn) {
+            if (!root) {
+                return;
+            }
+            if (root == dn) {
+                root = root.next;
+                return;
+            }
+            if (root.next == dn) {
+                root.next = root.next.next;
+                return;
+            }
+            deleteNode(root.next, dn);
+        }
+        // deleteNode(a,a);
+        // console.log(a)
+
+        function reverse(root) {
+
+            if (!root || !root.next) {
+                return root;
+            }
+
+            if (!root.next.next) {
+                var temp = root.next;
+                root.next.next = root;
+                root.next = null;
+                return temp;
+            } else {
+                var temp = reverse(root.next);
+                root.next.next = root;
+                root.next = null;
+                return temp;
+            }
+        }
+
+
+    </script>
+</body>
+
+</html>

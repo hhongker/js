@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+        <div class="inputAndButton">
+            <input type="text"><button class="tianjia">添加</button>
+            <ul>
+                <li>
+                    列表1
+                    <button>删除</button>
+                </li>
+                <li>
+                    列表2
+                    <button>删除</button>
+                </li>
+                <li>
+                    列表3
+                    <button>删除</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        var input = document.getElementsByTagName("input")[0];
+        var tianjia = document.getElementsByClassName("tianjia")[0]
+        var ul = document.getElementsByTagName("ul")[0];
+        tianjia.onclick = function(){
+            var inputText = input.value;
+            var li = document.createElement("li");
+            var button = document.createElement("button");
+            li.innerText = inputText;
+            button.innerText = "删除";
+            li.appendChild(button);
+            ul.appendChild(li);
+            input.value = "";
+        }
+        var li = document.getElementsByTagName("li");
+        for(var i = 0; i < li.length; i ++){
+            li[i].onclick = function(){
+                this.remove();
+            }
+        }
+       
+
+       window.onkeydown = function(e){
+           console.log(e.key+ ":" + typeof e.key);
+           console.log(e.code + ":" + typeof e.code);
+       }
+    </script>
+</body>
+</html>

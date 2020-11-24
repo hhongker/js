@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            padding: 0;
+            margin: 0;
+        }
+        body{
+            text-align: center;
+        }
+        .time{
+            display: inline;
+            font-size: 60px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="time"></div>
+</body>
+<script>
+    var time = document.getElementsByClassName("time")[0];
+    
+    // var num = 0;
+    // function t(n){
+    //     setTimeout(function () {
+    //         time.innerHTML = num;
+    //         num++;
+    //         t(n);
+    //     }, n);
+    // }
+    // t(1000);
+    setInterval(function(){
+        var date = new Date();
+        var y = date.getFullYear();
+        var m = date.getMonth();
+        var d = date.getDay();
+        var h = date.getHours();
+        var mi = date.getMinutes();
+        var s = date.getSeconds();
+        time.innerHTML = y +"-"+m+"-"+d+" "+h+":"+mi+":"+s.toString().padStart(2,"0");
+    },1000);
+
+</script>
+
+</html>

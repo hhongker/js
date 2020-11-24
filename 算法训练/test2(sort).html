@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <script>
+        var arr = [1, 3, 5, 3, 9, 7, 5, 20, 0, 2];
+
+
+        // 冒泡排序,从前往后一个个小的往上冒
+        function bubbleSort(_array) {
+            for (var i = 1; i < _array.length; i++) {
+                for (j = 0; j < _array.length - i; j++) {
+                    if (_array[j] > _array[j + 1]) {
+                        var temp = _array[j];
+                        _array[j] = _array[j + 1];
+                        _array[j + 1] = temp;
+                    }
+                }
+            }
+        }
+        // bubbleSort(arr);
+        // console.log(arr);
+
+        // 插入排序,默认前面有序,将后面一个个插入前面并保持有序
+        function insertSort(_array) {
+            for (var i = 1; i < _array.length; i++) {
+                for (var j = 0; j < i; j++) {
+                    if (_array[i] < _array[j]) {
+                        var temp = _array[i];
+                        _array[i] = _array[j];
+                        _array[j] = temp;
+                    }
+
+                }
+            }
+        }
+        // insertSort(arr);
+        // console.log(arr);
+
+
+
+
+        function selectSort(_array) {
+            for (var j = 0; j < _array.length - 1; j++) {
+                var min = j;
+                for (var i = j + 1; i < _array.length; i++) {
+                    if (_array[min] > _array[i]) {
+                        min = i;
+                    }
+                }
+                if (min !== j) {//如果min不是最小值的下标，则每次交换后，最小值会跑到最前面，但原来的那个最小值还会在原来的位置
+                    var temp = _array[min];
+                    _array[min] = _array[j];
+                    _array[j] = temp;
+                }
+            }
+        }
+        // selectSort(arr);
+        // console.log(arr)
+
+
+
+        // 快速排序
+        function quickSort(_array) {
+
+            function _quickSort(_arr, start, end) {
+                var left = start;
+                var right = end;
+                var base = _arr[end];
+                if (start >= end || start > _arr.length - 1 || end < 0) return;
+                while (left < right) {
+                    while (left < right && _arr[left] <= base) left++;
+                    _arr[right] = _arr[left];
+                    while (left < right && _arr[right] >= base) right--;
+                    _arr[left] = _arr[right];
+                }
+                _arr[left] = base;
+                _quickSort(_arr, start, left - 1);
+                _quickSort(_arr, left + 1, end);
+            }
+
+            _quickSort(_array, 0, _array.length - 1);
+        }
+        var arrr = [2,1,4,6,7];
+        quickSort(arrr);
+        console.log(arrr);
+
+
+        // 希尔排序
+        function shellSort(_array) {
+            var len = _array.length,
+                gap = 1;
+            while (gap < len / 3) {          //动态定义间隔序列
+                gap = gap * 3 + 1;
+            }
+            while (gap) {
+                for (var i = gap; i < len; i++) {
+                    var temp = _array[i];
+                    for (var j = i - gap; j >= 0 && _array[j] > temp; j -= gap) {
+                        _array[j + gap] = _array[j];
+                    }
+                    _array[j + gap] = temp;
+                }
+                gap = Math.floor(gap / 3);
+            }
+            return _array;
+        }
+        // shellSort(arr);
+        // console.log(arr)
+
+        // 归并排序
+        function mergeSort(_array) {
+
+            if (!_array) return;
+            if (_array.length <= 1) return _array;
+
+            var mid = Math.floor(_array.length / 2);
+            var l = _array.slice(0, mid);
+            var r = _array.slice(mid);
+
+            function _merge(left, right) {
+                var content = [];
+                while (left.length && right.length) {
+                    if (left[0] < right[0]) {
+                        content.push(left.shift());
+                    } else {
+                        content.push(right.shift());
+                    }
+                }
+                while (left.length) {
+                    content.push(left.shift());
+                }
+                while (right.length) {
+                    content.push(right.shift());
+                }
+                return content;
+            }
+
+            return _merge(mergeSort(l), mergeSort(r));
+        }
+        // arr = mergeSort(arr);
+        // console.log(arr);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        // 查找================================================================
+
+        // 暴力
+        function search(_array, value) {
+            for (var i = 0; i < _array.length; i++) {
+                if (_array[i] === value) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        // console.log(search(arr,2));
+
+
+        // 二分查找
+        function binarySearch1(_array, value) {//得有序quickSort(arr);
+            function _binarySearch(_arr, start, end) {
+                if (start > end) {
+                    return;
+                }
+                var mid = Math.floor((start + end) / 2);
+                if (value < _arr[mid]) {
+                    return _binarySearch(_arr, start, mid - 1);
+                } else if (value > _arr[mid]) {
+                    return _binarySearch(_arr, mid + 1, end);
+                } else {
+                    return true;
+                }
+            }
+            return _binarySearch(_array, 0, _array.length - 1) || false;
+        }
+
+        function binarySearch2(arr, value) {
+            if (arr.length === 0 || value < arr[0] || value > arr[arr.length - 1]) return false;
+
+            var minIndex = 0; //最小下标
+            var maxIndex = arr.length - 1; //最大下标
+            while (minIndex <= maxIndex) {
+                num++;
+                var mid = Math.floor((minIndex + maxIndex) / 2);//中间下标
+                // var mid = (value - arr[minIndex]) / (arr[maxIndex] - arr[minIndex]) * (maxIndex - minIndex) + minIndex;
+                // 【中间值下标（我们要找的值的下标）- 最小值下标】 / 【最大值下标-最小值下标】 约= 【目标值 - 最小值】 / 【最大值-最小值】
+                if (arr[mid] === value) {
+                    return true;
+                }
+                else if (arr[mid] > value) {
+                    maxIndex = mid - 1;
+                }
+                else {
+                    minIndex = mid + 1;
+                }
+            }
+            return false;
+        }
+
+
+
+
+
+    </script>
+</body>
+
+</html>

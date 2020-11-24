@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div class="main">
+
+    </div>
+    <script>
+        var imgs = ["./i1.jpg","./i2.jpg"];
+        var wendangpianduan = document.createDocumentFragment();
+        var main = document.getElementsByClassName("main")[0];
+       
+        var divimg = document.createElement("div");
+        var img = document.createElement("img");
+
+
+
+            divimg.style.width = "300px";
+            divimg.style.height = "500px";
+            img.style.width = "100%";
+            img.style.height = "auto";
+            img.src = "./i1.jpg";
+            divimg.appendChild(img);
+
+
+            for(var i = 0; i < imgs.length; i ++){
+                var button = document.createElement("button");
+                button.innerText = "第"+i+"个图片";
+                wendangpianduan.appendChild(button);
+                // (function(i){
+                //         button.onclick = function(){
+                //         img.src = imgs[i];
+                //     }
+                // }(i))
+                but(button,i);
+            }
+
+            function but(b,i){
+                b.onclick = function(){
+                    img.src = imgs[i];
+                }
+            }
+
+        main.appendChild(wendangpianduan);
+        main.appendChild(divimg);
+
+
+
+    </script>
+</body>
+</html>

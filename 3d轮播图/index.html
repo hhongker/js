@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+
+        .main{
+            width: 600px;
+            height: 360px;
+            /* border: 1px solid; */
+            margin: 400px auto;
+            position: relative;
+        }
+        .main ul{
+            height: 100%;
+            width: 100%;
+        }
+        .main ul li{
+            height: 100%;
+            position: relative;
+            transform-style: preserve-3d;
+            transition:0.8s;
+            display: inline-block;
+        }
+        .main ul li div{
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+        .ol{
+            width: 110px;
+            height: 20px;
+            position: absolute;
+            left: 0;
+            right: 0;
+            margin: 0 auto;
+            bottom: 30px;
+            display:flex;
+            line-height: 20px;
+            justify-content:space-between;
+            /* flex-wrap:wrap; */
+
+        }
+        .ol li{
+            width: 20px;
+            height: 100%;
+            background-color: #000;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            cursor: pointer;
+        }
+        .ol li.on{
+            background-color: coral;
+        }
+        ul li div:nth-child(1){
+            background: url("87910.jpg") no-repeat 0 0 / 600px  100%;
+            transform: translateZ(180px);
+        }
+        ul li div:nth-child(2){
+            background: url("187472.jpg") no-repeat 0 0 / 600px  100%;
+            top: 360px;
+            transform-origin: top;
+            transform: translateZ(180px) rotateX(-90deg);
+        }
+        ul li div:nth-child(3){
+            background: url("478518.jpg") no-repeat 0 0 / 600px  100%;
+            transform: translateZ(-180px) rotateX(-180deg);
+        }
+        ul li div:nth-child(4){
+            background: url("812388.jpg") no-repeat 0 0 / 600px  100%;
+            top: -360px;
+            transform-origin: bottom;
+            transform: translateZ(180px) rotateX(90deg);
+        }
+        
+    </style>
+</head>
+<body>
+    <div class="main">
+        <ul>
+
+        </ul>
+        <ol class="ol">
+            <li class="on">1</li>
+            <li>2</li>
+            <li>3</li>
+            <li>4</li>
+        </ol>    
+    </div>
+    <script src="index.js"></script>
+</body>
+</html>

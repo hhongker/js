@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            list-style: none;
+            text-decoration: none;
+        }
+        .main{
+            padding: 30px 20px;
+        }
+        .main::after{
+            content: "";
+            display: block;
+            clear: both;
+        }
+        .main p{
+            float: left;
+            font-size: 24px;
+            height: 30px;
+            line-height: 30px;
+            font-weight: 700;
+        }
+        .main p::after{
+            content: "|";
+            color: #ccc;
+            margin:0 20px; 
+            vertical-align: 1px;
+        }
+        .main ul{
+            float: left;
+            height: 30px;
+            overflow: auto;
+            font-size: 20px;
+            
+        }
+        .main ul li{
+            height: 30px;
+            line-height: 30px;
+            
+        }
+    </style>
+</head>
+<body>
+    <div class="main">
+        <p>当前战况:</p>
+        <ul>
+            <li>1.Lorem, ipsum dolor.</li>
+            <li>2.Lorem ipsum dolor sit.</li>
+            <li>3.Lorem ipsum dolor sit amet.</li>
+            <li>4.Lorem, ipsum dofsdafad</li>
+            <li>5.sdafasdfdsafdsf</li>
+        </ul>
+    </div>
+    <script>
+        var fistli = document.querySelector("ul li").cloneNode(true);
+        var ul = document.getElementsByTagName("ul")[0];
+        ul.appendChild(fistli);
+
+        ul.scrollTop = 0;
+        var listyle = getComputedStyle(fistli);
+        var liheight = parseInt(listyle.height);
+        setInterval(function(){
+            ul.scrollTop += liheight;
+            if(ul.scrollTop  === liheight * (ul.children.length-1)){
+                ul.scrollTop = 0;
+            }
+        },2000);
+    </script>
+</body>
+</html>

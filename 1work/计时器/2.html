@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .main {
+            margin: 0 auto;
+            margin-top: 60px;
+            width: 650px;
+            font-size: 48px;
+            text-align: center;
+        }
+
+        .main .btn button {
+            width: 50px;
+            height: 35px;
+            margin-left: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="main">
+        <div class="daojishi">
+            倒计时：<span>60</span>
+        </div>
+        <div class="dianjishu">
+            点击数：<span>0</span>
+        </div>
+        <div class="btn"><button>点击</button><button>重置</button></div>
+    </div>
+
+    <script>
+        var dianji = document.getElementsByTagName("button")[0];
+        var chongzhi = document.getElementsByTagName("button")[1];
+        var number = document.querySelector(".daojishi span");
+        var dianjishu = document.querySelector(".dianjishu span");
+        var cleartime = null;
+        var num = 60;
+        var i = 0;
+        var flag = true;
+        dianji.onclick = function () {
+            dianjishu.innerHTML = ++ i;
+            if (flag) {
+                cleartime = setInterval(function () {
+                    number.innerHTML = num ++;
+                }, 1000);
+            }
+            flag = false;
+        }
+
+        chongzhi.onclick = function(){
+            num = 0;
+            i = 0;
+            dianjishu.innerHTML = i;
+            number.innerHTML = num;
+            clearInterval(cleartime);
+            flag = true;
+        }
+    </script>
+</body>
+
+</html>
